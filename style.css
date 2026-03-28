@@ -1,63 +1,70 @@
+/* style.css - Versão Premium */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-    --primary: #4F46E5;
-    --primary-dark: #3730A3;
-    --accent: #F59E0B;
-    --success: #10B981;
-    --error: #EF4444;
-    --bg: #F8FAFC;
-    --card: #FFFFFF;
-    --text: #1E293B;
-    --border: #E2E8F0;
+    --primary: #6366f1;
+    --accent: #a855f7;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+* { font-family: 'Inter', sans-serif; }
 
-body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+.screen {
+    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
 
-.hidden { display: none !important; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-.container { max-width: 800px; margin: 0 auto; padding: 20px; }
+button {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-/* Cards e UI */
-.card { background: var(--card); border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid var(--border); margin-bottom: 20px; }
+button:active {
+    transform: scale(0.95);
+}
 
-.brand { font-size: 2.5rem; font-weight: 800; color: var(--primary); text-align: center; margin-bottom: 20px; letter-spacing: -1px; }
-.brand-sm { font-weight: 800; color: var(--primary); font-size: 1.2rem; }
+.card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 60px -15px rgb(99 102 241);
+}
 
-/* Botões */
-.btn { width: 100%; padding: 14px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 1rem; }
-.btn-primary { background: var(--primary); color: white; }
-.btn-secondary { background: #EEF2FF; color: var(--primary); }
-.btn-accent { background: var(--accent); color: white; }
-.btn-sm { padding: 8px 16px; font-size: 0.8rem; border-radius: 8px; border: 1px solid var(--border); background: white; cursor: pointer; }
+/* Melhorias específicas de animações */
+#practice-options button {
+    transition: all 0.3s ease;
+}
 
-/* Navbar */
-.navbar { background: white; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+#practice-options button.correct {
+    animation: correctAnim 0.6s ease forwards;
+}
 
-/* Form */
-.auth-card { max-width: 400px; margin: 100px auto; padding: 40px; background: white; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--border); border-radius: 10px; font-size: 1rem; }
+#practice-options button.wrong {
+    animation: wrongAnim 0.5s ease forwards;
+}
 
-/* Progress */
-.progress-bg { background: var(--border); height: 8px; border-radius: 4px; overflow: hidden; margin: 15px 0; }
-.progress-fill { background: var(--success); height: 100%; width: 0%; transition: 0.4s; }
+@keyframes correctAnim {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+}
 
-/* Practice */
-.option-btn { width: 100%; text-align: left; padding: 15px; margin-bottom: 10px; border: 1px solid var(--border); border-radius: 12px; background: white; cursor: pointer; font-weight: 600; }
-.option-btn:hover { border-color: var(--primary); background: #F5F3FF; }
+@keyframes wrongAnim {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-12px); }
+    40% { transform: translateX(12px); }
+    60% { transform: translateX(-8px); }
+    80% { transform: translateX(8px); }
+}
 
-/* Feedback Panel */
-.feedback-panel { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 30px; border-top: 2px solid var(--border); box-shadow: 0 -10px 15px rgba(0,0,0,0.05); text-align: center; }
+/* Glassmorphism */
+.bg-glass {
+    background: rgba(18, 18, 43, 0.75);
+    backdrop-filter: blur(12px);
+}
 
-/* Modal */
-.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; }
-.modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
-
-/* Admin Table */
-.table-responsive { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
-
-@media (max-width: 600px) {
-    .auth-card { margin: 20px; }
+/* Responsivo extra */
+@media (max-width: 640px) {
+    .text-4xl { font-size: 2.25rem; line-height: 1.1; }
+    .text-3xl { font-size: 1.85rem; }
 }
