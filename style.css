@@ -1,70 +1,19 @@
-/* style.css - Versão Premium */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-:root {
-    --primary: #6366f1;
-    --accent: #a855f7;
-}
 
 * { font-family: 'Inter', sans-serif; }
 
-.screen {
-    animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
+.screen { animation: fadeIn 0.4s ease forwards; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-button {
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
+button:active { transform: scale(0.96); }
 
-button:active {
-    transform: scale(0.95);
-}
-
-.card-hover:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 30px 60px -15px rgb(99 102 241);
-}
-
-/* Melhorias específicas de animações */
 #practice-options button {
     transition: all 0.3s ease;
 }
 
-#practice-options button.correct {
-    animation: correctAnim 0.6s ease forwards;
-}
-
-#practice-options button.wrong {
-    animation: wrongAnim 0.5s ease forwards;
-}
-
-@keyframes correctAnim {
-    0% { transform: scale(1); }
-    40% { transform: scale(1.12); }
-    100% { transform: scale(1); }
-}
-
-@keyframes wrongAnim {
-    0%, 100% { transform: translateX(0); }
-    20% { transform: translateX(-12px); }
-    40% { transform: translateX(12px); }
-    60% { transform: translateX(-8px); }
-    80% { transform: translateX(8px); }
-}
-
-/* Glassmorphism */
-.bg-glass {
-    background: rgba(18, 18, 43, 0.75);
-    backdrop-filter: blur(12px);
-}
-
-/* Responsivo extra */
-@media (max-width: 640px) {
-    .text-4xl { font-size: 2.25rem; line-height: 1.1; }
-    .text-3xl { font-size: 1.85rem; }
-}
+#practice-options button.correct { background: #10b981 !important; color: white; }
+#practice-options button.wrong { background: #ef4444 !important; color: white; }
