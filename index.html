@@ -4,95 +4,218 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResolveAi</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-[#0a0a1f] text-white font-sans overflow-x-hidden">
-    <header id="header" class="hidden ..."> <!-- mesmo header da versão anterior --> </header>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <span class="logo-icon">📐</span>
+                <h1>ResolveAi</h1>
+            </div>
+            <div class="user-info" id="user-info">
+                <!-- Preenchido via JS -->
+            </div>
+        </div>
+    </header>
 
-    <main class="min-h-screen pb-12">
-        <!-- TELA INICIAL -->
-        <section id="screen-initial" class="screen min-h-screen flex items-center justify-center px-4">
-            <div class="max-w-md w-full text-center space-y-8">
-                <div class="flex justify-center">
-                    <div class="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-3xl flex items-center justify-center text-7xl shadow-2xl">R</div>
-                </div>
-                <h1 class="text-5xl font-bold tracking-tight">ResolveAi</h1>
-                <p class="text-gray-400 text-lg">Matemática inteligente e adaptativa</p>
+    <!-- NAVEGAÇÃO -->
+    <nav class="nav">
+        <div class="container">
+            <button onclick="navigateTo('dashboard')" class="nav-btn active" id="nav-dashboard">
+                <span>🏠</span> Dashboard
+            </button>
+            <button onclick="navigateTo('practice')" class="nav-btn" id="nav-practice">
+                <span>✏️</span> Praticar
+            </button>
+            <button onclick="navigateTo('review')" class="nav-btn" id="nav-review">
+                <span>🔄</span> Revisão
+            </button>
+            <button onclick="navigateTo('history')" class="nav-btn" id="nav-history">
+                <span>📊</span> Histórico
+            </button>
+        </div>
+    </nav>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main-content">
+
+        <!-- TELA SETUP (modal) -->
+        <div id="setup-modal" class="modal">
+            <div class="modal-content">
+                <h2>Bem-vindo ao ResolveAi!</h2>
+                <p>Para personalizar sua experiência, precisamos de algumas informações.</p>
                 
-                <div class="space-y-4 mt-12">
-                    <button onclick="showRegisterScreen()" class="w-full py-6 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl font-bold text-xl hover:brightness-110 transition-all active:scale-95">
-                        Criar Nova Conta (Aluno)
-                    </button>
-                    <button onclick="showLoginScreen()" class="w-full py-6 bg-white/10 hover:bg-white/20 border border-white/20 rounded-3xl font-bold text-xl transition-all active:scale-95">
-                        Já tenho conta • Entrar
-                    </button>
-                    <button onclick="showAdminLoginModal()" class="w-full py-6 text-indigo-400 hover:text-white text-sm flex items-center justify-center gap-2">
-                        👨‍🏫 Acesso Administrativo
-                    </button>
+                <div class="form-group">
+                    <label for="student-name">Seu nome:</label>
+                    <input type="text" id="student-name" placeholder="Digite seu nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="student-grade">Qual sua série?</label>
+                    <select id="student-grade">
+                        <option value="6">6º ano</option>
+                        <option value="9">9º ano</option>
+                        <option value="1">1º ano do Ensino Médio</option>
+                    </select>
+                </div>
+                
+                <button onclick="saveStudentInfo()" class="btn-primary">Começar</button>
+            </div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div id="dashboard-screen" class="screen">
+            <div class="container">
+                <h2 id="dashboard-greeting">Olá, Aluno!</h2>
+                
+                <div class="student-card">
+                    <div class="level-badge" id="level-badge">Nível</div>
+                    <h3 id="student-name-display">Nome do Aluno</h3>
+                    <p id="student-grade-display">Série • Nível atual</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h4>Progresso Geral</h4>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
+                        </div>
+                        <p id="overall-percent">0% concluído</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Acertos Totais</h4>
+                        <p class="big-number" id="total-correct">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Tempo Médio</h4>
+                        <p class="big-number" id="avg-time">0s</p>
+                    </div>
+                </div>
+
+                <h3>Temas e Dificuldade</h3>
+                <div class="themes-grid" id="themes-grid">
+                    <!-- Gerado via JS -->
+                </div>
+
+                <div class="actions">
+                    <button onclick="startPractice()" class="btn-primary large">🚀 Iniciar Prática Inteligente</button>
+                    <button onclick="navigateTo('review')" class="btn-secondary large">🔄 Modo Revisão</button>
+                </div>
+
+                <h3>Histórico Recente</h3>
+                <div class="history-list" id="recent-history">
+                    <!-- Gerado via JS -->
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- TELA CADASTRO -->
-        <section id="screen-register" class="screen hidden min-h-screen flex items-center justify-center px-4">
-            <div class="max-w-md w-full bg-[#12122b] border border-white/10 rounded-3xl p-10">
-                <h2 class="text-3xl font-bold mb-8 text-center">Criar Conta de Aluno</h2>
-                <form onsubmit="handleRegister(event)" class="space-y-6">
-                    <div>
-                        <label class="block text-sm mb-2 font-medium text-gray-300">Nome / Apelido</label>
-                        <input id="reg-username" type="text" required class="w-full bg-[#1c1c33] border border-white/10 focus:border-indigo-500 rounded-3xl px-6 py-5 outline-none text-lg">
+        <!-- PRÁTICA -->
+        <div id="practice-screen" class="screen hidden">
+            <div class="container">
+                <div class="practice-header">
+                    <button onclick="backToDashboard()" class="back-btn">← Voltar</button>
+                    <h2 id="practice-theme-title">Praticando: Operações Básicas</h2>
+                    <div class="difficulty-pill" id="current-difficulty">Fácil</div>
+                </div>
+
+                <div class="question-card">
+                    <div class="timer">Tempo: <span id="question-timer">0s</span></div>
+                    <p class="question-text" id="question-text">Carregando questão...</p>
+                    
+                    <div class="options" id="options-container">
+                        <!-- Gerado via JS -->
                     </div>
-                    <div>
-                        <label class="block text-sm mb-2 font-medium text-gray-300">Senha</label>
-                        <input id="reg-password" type="password" required class="w-full bg-[#1c1c33] border border-white/10 focus:border-indigo-500 rounded-3xl px-6 py-5 outline-none text-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm mb-2 font-medium text-gray-300">Série</label>
-                        <select id="reg-series" class="w-full bg-[#1c1c33] border border-white/10 focus:border-indigo-500 rounded-3xl px-6 py-5 outline-none text-lg">
-                            <option value="6º ano">6º ano</option>
-                            <option value="9º ano">9º ano</option>
-                            <option value="1º médio">1º médio</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="w-full py-5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl font-bold text-xl hover:brightness-110 transition-all active:scale-95">
-                        Criar Conta
-                    </button>
-                </form>
-                <p onclick="showInitialScreen()" class="text-center text-sm text-gray-400 mt-6 cursor-pointer hover:text-white">← Voltar</p>
+                    
+                    <button onclick="submitAnswer()" class="btn-primary" id="submit-btn" disabled>Enviar Resposta</button>
+                </div>
+
+                <div class="practice-footer">
+                    <p id="practice-status">Escolha uma alternativa</p>
+                </div>
             </div>
-        </section>
+        </div>
 
-        <!-- TELA LOGIN -->
-        <section id="screen-login" class="screen hidden min-h-screen flex items-center justify-center px-4">
-            <div class="max-w-md w-full bg-[#12122b] border border-white/10 rounded-3xl p-10">
-                <h2 class="text-3xl font-bold mb-8 text-center">Entrar na sua conta</h2>
-                <form onsubmit="handleLogin(event)" class="space-y-6">
-                    <div>
-                        <label class="block text-sm mb-2 font-medium text-gray-300">Nome / Apelido</label>
-                        <input id="login-username" type="text" required class="w-full bg-[#1c1c33] border border-white/10 focus:border-indigo-500 rounded-3xl px-6 py-5 outline-none text-lg">
-                    </div>
-                    <div>
-                        <label class="block text-sm mb-2 font-medium text-gray-300">Senha</label>
-                        <input id="login-password" type="password" required class="w-full bg-[#1c1c33] border border-white/10 focus:border-indigo-500 rounded-3xl px-6 py-5 outline-none text-lg">
-                    </div>
-                    <button type="submit" class="w-full py-5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl font-bold text-xl hover:brightness-110 transition-all active:scale-95">
-                        Entrar
-                    </button>
-                </form>
-                <p onclick="showInitialScreen()" class="text-center text-sm text-gray-400 mt-6 cursor-pointer hover:text-white">← Voltar</p>
+        <!-- REVISÃO -->
+        <div id="review-screen" class="screen hidden">
+            <div class="container">
+                <div class="practice-header">
+                    <button onclick="backToDashboard()" class="back-btn">← Voltar</button>
+                    <h2>🔄 Modo Revisão</h2>
+                    <p class="subtitle">Reforçando os temas onde você mais errou</p>
+                </div>
+                <div id="review-content">
+                    <!-- Gerado via JS -->
+                </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Telas restantes (dashboard, diagnostic, practice, review, ranking, admin) -->
-        <!-- Copie as seções correspondentes das versões anteriores aqui (mantidas idênticas) -->
-        <!-- screen-diagnostic, screen-dashboard, screen-practice, screen-review, screen-ranking, screen-admin -->
+        <!-- HISTÓRICO -->
+        <div id="history-screen" class="screen hidden">
+            <div class="container">
+                <button onclick="backToDashboard()" class="back-btn">← Voltar</button>
+                <h2>📊 Histórico Completo</h2>
+                <div class="history-list full" id="full-history">
+                    <!-- Gerado via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE RESULTADO / AJUDA -->
+        <div id="result-modal" class="modal hidden">
+            <div class="modal-content result-modal">
+                <div id="result-icon" class="result-icon">✅</div>
+                <h2 id="result-title">Parabéns!</h2>
+                <p id="result-message"></p>
+                
+                <div id="help-section" class="hidden">
+                    <h3>Explicação Simples</h3>
+                    <p id="explanation-text"></p>
+                    
+                    <h3>Passo a Passo</h3>
+                    <div id="step-by-step" class="steps"></div>
+                    
+                    <h3>Outro Exemplo</h3>
+                    <div class="mini-question" id="another-example">
+                        <!-- Gerado via JS -->
+                    </div>
+                    
+                    <div class="doubt-box">
+                        <textarea id="doubt-text" placeholder="Ainda não entendi? Escreva sua dúvida aqui..."></textarea>
+                        <button onclick="saveDoubt()" class="btn-secondary">Salvar Dúvida</button>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button onclick="closeResultModal()" class="btn-primary">Continuar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE DIAGNÓSTICO -->
+        <div id="diagnosis-screen" class="screen hidden">
+            <div class="container">
+                <h2>Diagnóstico Inicial</h2>
+                <p class="subtitle">Responda 8 questões para descobrirmos seu nível</p>
+                
+                <div class="progress-diagnosis">
+                    <span id="diagnosis-progress">Questão 1 de 8</span>
+                    <div class="progress-bar">
+                        <div id="diagnosis-bar" class="progress-fill" style="width: 12.5%"></div>
+                    </div>
+                </div>
+                
+                <div class="question-card">
+                    <p class="question-text" id="diagnosis-question"></p>
+                    <div class="options" id="diagnosis-options"></div>
+                </div>
+                
+                <button onclick="submitDiagnosisAnswer()" class="btn-primary" id="diagnosis-submit">Enviar</button>
+            </div>
+        </div>
 
     </main>
-
-    <!-- Modais Admin -->
-    <div id="modal-admin" class="hidden fixed inset-0 bg-black/80 backdrop-blur-xl flex items-center justify-center z-50">...</div>
-    <div id="modal-admin-options" class="hidden fixed inset-0 bg-black/80 backdrop-blur-xl flex items-center justify-center z-50">...</div>
 
     <script src="script.js"></script>
 </body>
