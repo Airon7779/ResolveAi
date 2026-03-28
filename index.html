@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResolveAi | Plataforma de Estudos</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app">
+        <section id="screen-auth" class="screen">
+            <div class="auth-card">
+                <h1 class="brand">ResolveAi</h1>
+                <div class="auth-tabs">
+                    <button id="tab-login" class="active" onclick="ui.switchAuth('login')">Entrar</button>
+                    <button id="tab-signup" onclick="ui.switchAuth('signup')">Cadastrar</button>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="auth-user" placeholder="Usuário">
+                    <input type="password" id="auth-pass" placeholder="Senha">
+                    <div id="signup-only" class="hidden">
+                        <select id="auth-grade">
+                            <option value="">Série</option>
+                            <option value="6">6º Ano</option>
+                            <option value="9">9º Ano</option>
+                            <option value="1">1º Médio</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="ctrl.handleAuth()">Confirmar</button>
+                    <button class="btn-link" onclick="ui.openAdminGate()">Logar como adm</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-diag" class="screen hidden">
+            <div class="container">
+                <div class="card">
+                    <h2>Diagnóstico Inicial</h2>
+                    <p id="diag-msg">Vamos conhecer sua base matemática.</p>
+                    <div class="progress-bg"><div id="diag-progress" class="progress-fill"></div></div>
+                    <div id="diag-area"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-dash" class="screen hidden">
+            <nav class="navbar">
+                <span class="brand-sm">ResolveAi</span>
+                <div class="nav-right">
+                    <span id="nav-user-display"></span>
+                    <button class="btn-sm" onclick="ctrl.logout()">Sair</button>
+                </div>
+            </nav>
+            <div class="container dash-layout">
+                <div class="stats-bar">
+                    <div class="stat"><span>Pontos</span><strong id="dash-points">0</strong></div>
+                    <div class="stat"><span>Nível</span><strong id="dash-level">-</strong></div>
+                    <div class="stat"><span>Combo</span><strong id="dash-combo">1.0x</strong></div>
+                </div>
+
+                <div class="card welcome-card">
+                    <h3 id="dash-welcome">Olá!</h3>
+                    <p id="dash-advice">Pronto para os desafios?</p>
+                    <div class="action-grid">
+                        <button class="btn btn-primary" onclick="ctrl.startPractice()">🚀 Praticar</button>
+                        <button class="btn btn-secondary" onclick="ctrl.startReview()">🔄 Revisão</button>
+                        <button class="btn btn-accent" onclick="ctrl.showRanking()">🏆 Ranking</button>
+                    </div>
+                </div>
+
+                <div class="card history-card">
+                    <h4>Últimas Atividades</h4>
+                    <ul id="dash-history"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-practice" class="screen hidden">
+            <div class="container">
+                <div class="practice-header">
+                    <button onclick="ui.showScreen('screen-dash')">✕ Sair</button>
+                    <div id="practice-multiplier">1.0x</div>
+                </div>
+                <div id="question-card" class="card"></div>
+                
+                <div id="help-area" class="card hidden"></div>
+
+                <div id="feedback-panel" class="feedback-panel hidden">
+                    <div id="feedback-content"></div>
+                    <button class="btn btn-primary" onclick="ctrl.nextQuestion()">Próxima</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-ranking" class="screen hidden">
+            <div class="container">
+                <div class="card">
+                    <h2>Ranking - <span id="rank-grade"></span></h2>
+                    <div id="ranking-container"></div>
+                    <button class="btn btn-primary" onclick="ui.showScreen('screen-dash')">Voltar</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="screen-admin" class="screen hidden">
+            <nav class="navbar">
+                <span class="brand-sm">ResolveAi | Admin</span>
+                <button class="btn-sm" onclick="ctrl.logout()">Sair</button>
+            </nav>
+            <div class="container">
+                <div class="admin-summary card">
+                    <div id="admin-stats"></div>
+                </div>
+                <div class="card">
+                    <h3>Lista de Alunos</h3>
+                    <div class="table-responsive">
+                        <table id="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Série</th>
+                                    <th>Pontos</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div id="modal-gate" class="modal hidden">
+            <div class="modal-content">
+                <h3>Acesso Admin</h3>
+                <input type="password" id="gate-code" placeholder="Código de acesso">
+                <button class="btn btn-primary" onclick="ctrl.verifyGate()">Entrar</button>
+                <button class="btn-text" onclick="ui.closeModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
